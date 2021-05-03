@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+<group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_message"
+            android:icon="@drawable/ic_outline_coronavirus_24"
+            android:title="COVID-19" />
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_outline_local_atm_24"
+            android:title="Charity" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_outline_medical_services_24"
+            android:title="Medical Appointment" />
+    </group>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_outline_circle_notifications_24"
+                android:title="Application Status" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_outline_logout_24"
+                android:title="Log Out" />
+        </menu>
+    </item>
+
+</menu>

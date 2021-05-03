@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1009681870662",
+    "project_id": "covidassist-59794",
+    "storage_bucket": "covidassist-59794.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009681870662:android:3bce51318cd29135527f47",
+        "android_client_info": {
+          "package_name": "com.example.fyp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009681870662-b0ua961tlo5t3np4a9bcd27e8pajom4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyGVVybPwuAAsEGSUuPvfYMsa_sHP2Rcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009681870662-b0ua961tlo5t3np4a9bcd27e8pajom4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
-
+    android:background="#FFFFFF">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,7 +50,7 @@
                         android:layout_below="@+id/textView"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/gotham"
-                        android:text="Let's book an appointment."
+                        android:text="How can we help?"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
@@ -62,8 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     android:layout_marginTop="-44dp"
+                    android:layout_marginRight="8dp"
                     app:cardCornerRadius="8dp"
                     app:cardUseCompatPadding="true"
                     app:contentPadding="16dp">
@@ -79,7 +78,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
-                            android:textColorHint="#FF8A99AF">
+                            android:textColorHint="#FF8A99AF"
+                            app:boxBackgroundColor="#302222"
+                            app:boxBackgroundMode="filled">
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -88,9 +89,8 @@
                                 android:drawableStart="@drawable/ic_location_on_light_blue_24dp"
                                 android:drawablePadding="16dp"
                                 android:fontFamily="@font/calibri"
-                                android:hint="Hospital"
+                                android:hint="Home Address"
                                 android:inputType="text"
-                                android:maxLines="1"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -108,13 +108,13 @@
                                 android:background="#FFFFFF"
                                 android:drawableStart="@drawable/ic_baseline_access_time_24"
                                 android:drawablePadding="16dp"
+                                android:focusableInTouchMode="false"
                                 android:fontFamily="@font/calibri"
-                                android:hint="Time"
+                                android:hint="Jenis Bantuan"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp"
-                                android:focusableInTouchMode="false" />
+                                android:textSize="16sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -130,11 +130,11 @@
                                 android:background="#FFFFFF"
                                 android:drawableStart="@drawable/ic_date_range_light_blue_24dp"
                                 android:drawablePadding="16dp"
+                                android:focusableInTouchMode="false"
                                 android:fontFamily="@font/calibri"
-                                android:hint="Select Date"
+                                android:hint="Amount Needed (RM)"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp"
-                                android:focusableInTouchMode="false" />
+                                android:textSize="16sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -150,11 +150,11 @@
                     android:layout_margin="16dp"
                     android:background="@drawable/buttonshape"
                     android:fontFamily="@font/calibri"
-                    android:text="Book Now"
+                    android:text="Apply Now"
                     android:textAllCaps="false"
-                    android:textStyle="bold"
                     android:textColor="#ffffff"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 
@@ -162,4 +162,5 @@
 
     </RelativeLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>
