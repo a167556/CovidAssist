@@ -28,7 +28,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/aaa" />
+                        android:src="@drawable/bbb" />
 
                     <TextView
                         android:id="@+id/textView"
@@ -82,6 +82,7 @@
                             app:boxBackgroundColor="#302222"
                             app:boxBackgroundMode="filled">
 
+
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -90,9 +91,10 @@
                                 android:drawablePadding="16dp"
                                 android:fontFamily="@font/calibri"
                                 android:hint="Home Address"
-                                android:inputType="text"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="16sp"
+                                android:inputType="textMultiLine"
+                                android:lines="3" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -110,7 +112,7 @@
                                 android:drawablePadding="16dp"
                                 android:focusableInTouchMode="false"
                                 android:fontFamily="@font/calibri"
-                                android:hint="Jenis Bantuan"
+                                android:hint="Type of Aid"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:textColor="@android:color/black"
