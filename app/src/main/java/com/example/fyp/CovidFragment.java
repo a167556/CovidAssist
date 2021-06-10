@@ -170,6 +170,7 @@ public class CovidFragment extends Fragment {
                 CombinedData combinedData = new CombinedData();
                 LineData lineData = new LineData();
 
+
                 for(int i=0; i<5; i++){
                     topCountriesData = topCountriesDataList.get(i);
                     country.add(topCountriesData.getCountry());
@@ -179,7 +180,7 @@ public class CovidFragment extends Fragment {
                 }
 
                 BarDataSet barDataSet = new BarDataSet(BarValueSet, "Total Cases");
-                barDataSet.setColor(Color.rgb(255,0,0));
+                barDataSet.setColor(Color.rgb(134,107,223));
                 BarData barData = new BarData(barDataSet);
                 LineDataSet lineDataSet = new LineDataSet(LineValueSet,"Total Deaths");
                 lineDataSet.setColor(Color.rgb(0,0,0));
@@ -201,8 +202,10 @@ public class CovidFragment extends Fragment {
                 xAxis.setDrawAxisLine(false);
                 xAxis.setGranularity(1f);
                 xAxis.setLabelCount(country.size());
-                xAxis.setLabelRotationAngle(270);
-                chart.setExtraOffsets(5,20,5,0);
+                xAxis.setLabelRotationAngle(360);
+                xAxis.setAxisMinimum(-0.5f);
+                xAxis.setAxisMaximum(barData.getXMax() + 0.5f);
+                chart.setExtraOffsets(0,20,5,0);
                 chart.animateY(2000);
                 chart.invalidate();
 

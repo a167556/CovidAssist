@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_chat"
             android:icon="@drawable/ic_outline_local_atm_24"
-            android:title="Charity" />
+            android:title="Financial Support" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_outline_medical_services_24"
@@ -23,7 +23,15 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_outline_circle_notifications_24"
-                android:title="Application Status" />
+                android:title="Financial Support Status" />
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_outline_content_paste_24"
+                android:title="Upcoming Appointment" />
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_outline_settings_24"
+                android:title="Settings" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_outline_logout_24"
