@@ -207,7 +207,7 @@ public class AAppointmentStep4 extends Fragment {
                             calendar = Calendar.getInstance();
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent);
-                            Toast.makeText(getContext(), "Application Success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Application Success !", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

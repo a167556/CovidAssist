@@ -17,13 +17,22 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,6 +50,10 @@ import dmax.dialog.SpotsDialog;
 public class AAppointmentMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
 //    NavigationView navigationView;
+    private FirebaseUser user;
+    private DatabaseReference reference;
+    private String userID;
+    TextView txt_name_user, txt_email_user;
 
     LocalBroadcastManager localBroadcastManager;
     AlertDialog dialog;
@@ -224,6 +237,42 @@ public class AAppointmentMainActivity extends AppCompatActivity implements Navig
 //            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CovidFragment()).commit();
             nav_view.setCheckedItem(R.id.nav_profile);
         }
+
+        View header = nav_view.getHeaderView(0);
+        txt_name_user = header.findViewById(R.id.txt_name_user);
+        txt_email_user = header.findViewById(R.id.txt_email_user);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        userID = user.getUid();
+
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                User userProfile = snapshot.getValue(User.class);
+
+                if (userProfile != null){
+                    String fullname = userProfile.name;
+                    String email = userProfile.email;
+
+                    txt_name_user.setText(fullname);
+                    txt_email_user.setText(email);
+
+//                   fullnameTVBK.setText(fullname);
+//                    progressBarSumbangan.setVisibility(View.GONE);
+//                    Toast.makeText(getActivity(), "Full name loaded from profile", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AAppointmentMainActivity.this, "Database error", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setColorButton() {
@@ -268,9 +317,13 @@ public class AAppointmentMainActivity extends AppCompatActivity implements Navig
                 break;
             case R.id.nav_share:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new sSumbangan()).commit();
+                item.setCheckable(true);
+                item.setChecked(true);
                 break;
             case R.id.nav_history:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new sAppointment()).commit();
+                item.setCheckable(true);
+                item.setChecked(true);
                 break;
             case R.id.nav_send:
                 Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
