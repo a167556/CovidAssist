@@ -11,25 +11,6 @@
     android:backgroundTint="#FFFFFF"
     tools:context=".sAppointment">
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="16dp">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/textView3"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:textSize="20sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textColor="@color/purple_500"-->
-<!--            android:text="Upcoming Medical Appointment" />-->
-
-<!--    </LinearLayout>-->
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -210,6 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -236,6 +218,24 @@
                         android:textStyle="bold">
 
                     </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btn_delete_booking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#998CC5"
+                        android:text="Cancel"
+                        android:textColor="#fff"></Button>
+
                 </LinearLayout>
 
             </LinearLayout>

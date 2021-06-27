@@ -51,6 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dmax.dialog.SpotsDialog;
+import io.paperdb.Paper;
 
 public class AAppointmentStep4 extends Fragment {
 
@@ -99,8 +100,9 @@ public class AAppointmentStep4 extends Fragment {
 
         Timestamp timestamp = new Timestamp(appointmentDateWithourHouse.getTime());
 
-        AppointmentInformation appointmentInformation = new AppointmentInformation();
+        final AppointmentInformation appointmentInformation = new AppointmentInformation();
 
+        appointmentInformation.setStateBook(Common.state);
         appointmentInformation.setDone(false);
         appointmentInformation.setTimestamp(timestamp);
         appointmentInformation.setDoctorId(Common.currentDoctor.getDoctorID());
@@ -142,6 +144,11 @@ public class AAppointmentStep4 extends Fragment {
                 Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        CollectionReference appointmentHistory = FirebaseFirestore.getInstance()
+                .collection("Appointment History");
+
+        appointmentHistory.document().set(appointmentInformation);
     }
 
     private void addToUserAppointment(final AppointmentInformation appointmentInformation) {
@@ -151,6 +158,7 @@ public class AAppointmentStep4 extends Fragment {
                 .collection("User")
                 .document(userID)
                 .collection("Appointment");
+
 
         //get current date
         calendar = Calendar.getInstance();
@@ -171,6 +179,7 @@ public class AAppointmentStep4 extends Fragment {
 
                         if(task.getResult().isEmpty()){
                             //set data
+
                             userAppointment.document()
                                     .set(appointmentInformation)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -184,7 +193,7 @@ public class AAppointmentStep4 extends Fragment {
 
                                             resetStaticData();
                                             calendar = Calendar.getInstance();
-                                            Intent intent = new Intent(getContext(), MainActivity.class);
+                                            Intent intent = new Intent(getContext(), AAppointmentMainActivity.class);
                                             startActivity(intent);
                                             Toast.makeText(getContext(), "Application Success!", Toast.LENGTH_SHORT).show();
                                         }
@@ -205,7 +214,7 @@ public class AAppointmentStep4 extends Fragment {
 
                             resetStaticData();
                             calendar = Calendar.getInstance();
-                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            Intent intent = new Intent(getContext(), AAppointmentMainActivity.class);
                             startActivity(intent);
                             Toast.makeText(getContext(), "Application Success !", Toast.LENGTH_SHORT).show();
                         }
@@ -279,7 +288,11 @@ public class AAppointmentStep4 extends Fragment {
                 calendars = Uri.parse("content://calendar/events");
 
 
-            getActivity().getContentResolver().insert(calendars,event);
+            Uri uri_save = getActivity().getContentResolver().insert(calendars,event);
+
+            //save to cache
+            Paper.init(getActivity());
+            Paper.book().write(Common.EVENT_URI_CACHE, uri_save.toString());
             
         } catch (ParseException e) {
             e.printStackTrace();

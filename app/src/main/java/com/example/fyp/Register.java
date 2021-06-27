@@ -68,6 +68,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String password=mPassword.getText().toString().trim();
         String name=mFullName.getText().toString().trim();
         String phone=mPhone.getText().toString().trim();
+        String type="normal";
 
         if(email.isEmpty()){
             mEmail.setError("Email is required!");
@@ -111,7 +112,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            User user = new User(name, phone, email);
+                            User user = new User(name, phone, email, type);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -121,6 +122,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                     if (task.isSuccessful()){
                                         Toast.makeText(Register.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
+                                        startActivity(new Intent(Register.this, Login.class));
                                     }
                                     else{
                                         Toast.makeText(Register.this, "Failed to register!", Toast.LENGTH_LONG).show();

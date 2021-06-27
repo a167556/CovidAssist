@@ -1,7 +1,9 @@
 package com.example.fyp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AdminStatusSumbangan extends AppCompatActivity {
@@ -16,6 +19,7 @@ public class AdminStatusSumbangan extends AppCompatActivity {
     RecyclerView recViewStatus;
     AdminStatusAdapter adapter;
     ProgressBar progressBar;
+    Button buttonSignOut;
 
 
     @Override
@@ -37,6 +41,15 @@ public class AdminStatusSumbangan extends AppCompatActivity {
         recViewStatus.setAdapter(adapter);
         progressBar.setVisibility(View.GONE);
 
+        buttonSignOut = findViewById(R.id.buttonSignOut);
+        buttonSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(AdminStatusSumbangan.this,Login.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

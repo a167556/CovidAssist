@@ -87,10 +87,10 @@ public class AdminStatusAdapter extends FirebaseRecyclerAdapter<UserHelperClass,
             super(itemView);
 
             uid = (TextView)itemView.findViewById(R.id.uid);
-            user = (TextView)itemView.findViewById(R.id.labelNama);
+            aid = (TextView)itemView.findViewById(R.id.labelNama);
             ic = (TextView)itemView.findViewById(R.id.labelIC);
             address = (TextView)itemView.findViewById(R.id.labelAlamat);
-            aid = (TextView)itemView.findViewById(R.id.aidTV);
+            user = (TextView)itemView.findViewById(R.id.aidTV);
             phone = (TextView)itemView.findViewById(R.id.labelTel);
 
            expandablView = (ConstraintLayout)itemView.findViewById(R.id.expandableview);

@@ -310,8 +310,7 @@ public class AAppointmentMainActivity extends AppCompatActivity implements Navig
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SumbanganFragment()).commit();
                 break;
             case R.id.nav_profile:
-                Intent k = new Intent(AAppointmentMainActivity.this, AAppointmentMainActivity.class);
-                startActivity(k);
+                this.recreate();
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AppointmentFragment()).commit();
                 nav_view.setCheckedItem(R.id.nav_profile);
                 break;
@@ -326,7 +325,9 @@ public class AAppointmentMainActivity extends AppCompatActivity implements Navig
                 item.setChecked(true);
                 break;
             case R.id.nav_send:
-                Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AAppointmentMainActivity.this, "Log out!", Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(AAppointmentMainActivity.this, Login.class));
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

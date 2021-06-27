@@ -2,8 +2,11 @@ package com.example.fyp;
 
 import android.content.Intent;
 
+import com.google.firebase.Timestamp;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Common {
     public static final String KEY_ENABLE_BUTTON_NEXT = "ENABLE_BUTTON_NEXT";
@@ -16,6 +19,7 @@ public class Common {
     public static final Object DISABLE_TAG = "DISABLE";
     public static final String KEY_TIME_SLOT = "TIME_SLOT";
     public static final String KEY_CONFIRM_APPOINTMENT = "CONFIRM_APPOINTMENT";
+    public static final String EVENT_URI_CACHE = "URI_EVENT_SAVE";
     public static Hospital currentHospital;
     public static int step = 0;
     public static String state = "";
@@ -23,6 +27,8 @@ public class Common {
     public static int currentTimeSlot = -1;
     public static Calendar appointmentDate = Calendar.getInstance();
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
+    public static AppointmentInformation currentAppointment;
+    public static String currentAppointmentId="";
 
     public static String convertTimeSlotToString(int slot) {
         switch (slot){
@@ -71,5 +77,11 @@ public class Common {
                 return "Closed";
 
         }
+    }
+
+    public static String convertTimeStampToStringKey(Timestamp timestamp) {
+        Date date = timestamp.toDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
+        return simpleDateFormat.format(date);
     }
 }

@@ -142,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         item.setChecked(true);
                         break;
                     case R.id.nav_send:
-//                        Toast.makeText(ge, "Send", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Log out!", Toast.LENGTH_LONG).show();
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(MainActivity.this, Login.class));
                         break;
                 }
                 drawer.closeDrawer(GravityCompat.START);

@@ -1,6 +1,9 @@
 package com.example.fyp;
 
+import android.app.AlertDialog;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,7 +38,10 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import dmax.dialog.SpotsDialog;
+import io.paperdb.Paper;
 
 public class sAppointment extends Fragment implements IAppointmentInfoLoadListener {
     @BindView(R.id.card_appointment_info)
@@ -48,6 +56,85 @@ public class sAppointment extends Fragment implements IAppointmentInfoLoadListen
     TextView txt_time;
     @BindView(R.id.txt_time_remain)
     TextView txt_time_remain;
+
+    AlertDialog dialog;
+
+    @OnClick(R.id.btn_delete_booking)
+    void deleteBooking(){
+        deleteAppointmentFromDoctor();
+    }
+
+    private void deleteAppointmentFromDoctor() {
+
+        Long slot = Common.currentAppointment.getSlot();
+        String stringSlot = String.valueOf(slot);
+
+        if (Common.currentAppointment != null){
+
+            dialog.show();
+
+            DocumentReference doctorAppointmentInfo = FirebaseFirestore.getInstance()
+                    .collection("AllState")
+                    .document(Common.currentAppointment.getStateBook())
+                    .collection("Hospital")
+                    .document(Common.currentAppointment.getHospitalId())
+                    .collection("Doctor")
+                    .document(Common.currentAppointment.getDoctorId())
+                    .collection(Common.convertTimeStampToStringKey(Common.currentAppointment.getTimestamp()))
+                    .document(stringSlot);
+
+            doctorAppointmentInfo.delete().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    deleteAppointmentFromUser();
+                }
+            });
+
+        }
+
+        else {
+            Toast.makeText(getContext(), "There is no appointment yet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void deleteAppointmentFromUser() {
+        if (!TextUtils.isEmpty(Common.currentAppointmentId)){
+            DocumentReference userAppointmentInfo = FirebaseFirestore.getInstance()
+                    .collection("User")
+                    .document(userID)
+                    .collection("Appointment")
+                    .document(Common.currentAppointmentId);
+
+            //delete
+            userAppointmentInfo.delete().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    //delete from calendar
+                    Paper.init(getActivity());
+                    Uri eventUri = Uri.parse(Paper.book().read(Common.EVENT_URI_CACHE).toString());
+                    getActivity().getContentResolver().delete(eventUri, null, null);
+
+                    Toast.makeText(getContext(), "Appointment successfully cancelled!", Toast.LENGTH_SHORT).show();
+
+                    loadUserAppointment();
+                }
+            });
+        }
+
+        else {
+            Toast.makeText(getContext(), "Appointment Information is not available", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     Unbinder unbinder;
     private FirebaseUser user;
@@ -90,7 +177,7 @@ public class sAppointment extends Fragment implements IAppointmentInfoLoadListen
                             if (!task.getResult().isEmpty()){
                                 for (QueryDocumentSnapshot queryDocumentSnapshot:task.getResult()){
                                     AppointmentInformation appointmentInformation = queryDocumentSnapshot.toObject(AppointmentInformation.class);
-                                    iAppointmentInfoLoadListener.onAppointmentInfoLoadSuccess(appointmentInformation);
+                                    iAppointmentInfoLoadListener.onAppointmentInfoLoadSuccess(appointmentInformation,queryDocumentSnapshot.getId());
                                     break;
                                 }
                             }
@@ -107,6 +194,13 @@ public class sAppointment extends Fragment implements IAppointmentInfoLoadListen
                 iAppointmentInfoLoadListener.onAppointmentInfoLoadFailed(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        dialog = new SpotsDialog.Builder().setContext(getContext()).setCancelable(false).build();
     }
 
     @Nullable
@@ -153,7 +247,11 @@ public class sAppointment extends Fragment implements IAppointmentInfoLoadListen
     }
 
     @Override
-    public void onAppointmentInfoLoadSuccess(AppointmentInformation appointmentInformation) {
+    public void onAppointmentInfoLoadSuccess(AppointmentInformation appointmentInformation, String appointmentId) {
+
+        Common.currentAppointment = appointmentInformation;
+        Common.currentAppointmentId = appointmentId;
+
         txt_hospital_address.setText(appointmentInformation.getHospitalAddress());
         txt_hospital_doctor.setText(appointmentInformation.getDoctorName());
         txt_hospital.setText(appointmentInformation.getHospitalName());
@@ -163,6 +261,9 @@ public class sAppointment extends Fragment implements IAppointmentInfoLoadListen
                 Calendar.getInstance().getTimeInMillis(), 0).toString();
 
         txt_time_remain.setText(dateRemain);
+
+        if (dialog.isShowing())
+            dialog.dismiss();
     }
 
     @Override

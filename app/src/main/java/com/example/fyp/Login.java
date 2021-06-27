@@ -16,6 +16,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,6 +29,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private Button btnLogin;
     private EditText loginEmail, loginPassword;
     private ProgressBar progressBar;
+    private DatabaseReference dbReference;
+    private String userID;
     FirebaseAuth mAuth;
 
 
@@ -77,8 +85,35 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if(task.isSuccessful()){
-                    Toast.makeText(Login.this, "Login success!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(Login.this, MainActivity.class));
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    dbReference = FirebaseDatabase.getInstance().getReference("Users");
+                    userID = user.getUid();
+                    //Redirect user to appropriate activity
+                    dbReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User userProfile = snapshot.getValue(User.class);
+                            String type = userProfile.type;
+
+                            if(type.equals("doctor")){
+                                startActivity(new Intent(Login.this, AdminDoctorActivity.class));
+                            }
+                            else if (type.equals("ngo")){
+                                startActivity(new Intent(Login.this, AdminStatusSumbangan.class));
+                            }
+                            else {
+                                startActivity(new Intent(Login.this, MainActivity.class));
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(Login.this, "Failed to login !", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else{
                     Toast.makeText(Login.this, "Failed to login!", Toast.LENGTH_LONG).show();

@@ -63,6 +63,7 @@ public class AAppointmentStep1 extends Fragment implements IAllStateLoadListener
         iAllStateLoadListener = this;
         iHospitalLoadListener = this;
 
+
         dialog = new SpotsDialog.Builder().setContext(getActivity()).setCancelable(false).build();
     }
 

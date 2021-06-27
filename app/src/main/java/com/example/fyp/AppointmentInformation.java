@@ -3,7 +3,7 @@ package com.example.fyp;
 import com.google.firebase.Timestamp;
 
 public class AppointmentInformation {
-    private String customerName, customerPhone, time, doctorId, doctorName, hospitalId, hospitalName, hospitalAddress;
+    private String stateBook, customerName, customerPhone, time, doctorId, doctorName, hospitalId, hospitalName, hospitalAddress;
     private long slot;
     private Timestamp timestamp;
     private boolean done;
@@ -109,5 +109,13 @@ public class AppointmentInformation {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public String getStateBook() {
+        return stateBook;
+    }
+
+    public void setStateBook(String stateBook) {
+        this.stateBook = stateBook;
     }
 }
